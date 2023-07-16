@@ -3,6 +3,7 @@ const { Users } = require('./schema');
 const router = express.Router();
 const cors = require("cors")
 router.use(cors());
+const nodemailer = require("nodemailer");
 
 
 router.post('/insertUser', async (req, res) => {
@@ -41,7 +42,6 @@ router.get('/getOneUser', async (req, res) => {
 
 router.put('/updateData', async (req, res) => {
   try {
-    console.log(req.body,req.query)
     const updates = req.body; 
     const update = { $set: updates };
     const updatedData = await Users.findOneAndUpdate(req.query, update, { new: true });
@@ -87,6 +87,48 @@ router.get('/getUsersByQuery', async (req, res) => {
   }
 });
 
+
+router.post("/sendUserCLientId", async (req, res) => {
+  console.log("Called");
+  console.log("inside routes");
+  const { email ,client_Id } = req.body;
+  console.log("email is ", email);
+
+  try {
+    
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "propertyportalcc@gmail.com",
+        pass: "xwrrfzmrdowxnamf",
+      },
+    });
+
+    const mailOptions = {
+      from: "propertyportalcc@gmail.com",
+      to: email,
+      subject: "Code-No ( Client Id ) ",
+      html: `<div style="font-family: Helvetica, Arial, sans-serif; overflow: auto; line-height: 2">
+        <div style="margin: 5px auto; width: 90%; padding: 20px 0">
+          <div style="border-bottom: 1px solid #eee">
+            <a href="" style="font-size: 1.4em; color: #00466a; text-decoration: none; font-weight: 600">SSF Khazana</a>
+          </div>
+          <p style="font-size: 1.1em">Hi,</p>
+          <p>Thank you for choosing SSF Khazana.<br/> Use the following Code-No ( Client Id ) to complete your Sign In procedures.</p>
+          <h2 style="background: #00466a; width: max-content; padding: 0 10px; color: #fff; border-radius: 4px;">Client Id:-  ${client_Id}</h2>
+          <p style="font-size: 0.9em;">Regards,<br />SSF Khazana Team</p>
+        </div>
+      </div>`,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent:", info.response);
+    res.status(201).json({ status: 201, info });
+  } catch (error) {
+    console.log("Error:", error);
+    res.status(401).json({ status: 401, error });
+  }
+});
 
 
 

@@ -28,7 +28,7 @@ require("./database/connection");
 
 
 app.listen(PORT, () => {
-  console.log("Listening's on port 4000");
+  console.log("Listening on port 4000");
 });
 
 // Error handling middleware

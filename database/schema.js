@@ -17,6 +17,10 @@ const register_newUser = new mongoose.Schema({
         type: String,
         required: false,
     },
+    masteraccount :{
+        type: String,
+        required: false,
+    },
     firstname: {
         type: String,
         required: false,
@@ -47,6 +51,14 @@ const register_newUser = new mongoose.Schema({
     },
     profileimg: {
         type: String,
+        required: false,
+    },
+    accountstatus: {
+        type: String,
+        required: false,
+    },
+    createddatetime: {
+        type: Date,
         required: false,
     },
 });

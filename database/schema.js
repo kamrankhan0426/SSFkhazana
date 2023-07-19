@@ -61,10 +61,55 @@ const register_newUser = new mongoose.Schema({
         type: Date,
         required: false,
     },
+    accounttype: {
+        type: String,
+        required: false,
+    },
+    plan_pricing: {
+        type: String,
+        required: false,
+    },
+    balance: {
+        type: String,
+        required: false,
+    },
+    network_earn: {
+        type: String,
+        required: false,
+    },
+    purchased_coinA : {
+
+    },
+    purchased_coinB : {
+        
+    },
+    purchased_coinB : {
+        
+    }
 });
 
+
+const coin = new mongoose.Schema({
+    id : {
+
+    },
+    coinA : {
+
+    },
+    coinB : {
+
+    },
+    coinC :{
+
+    },
+    index :{
+
+    }
+});
+
+const coins = mongoose.model('coin', coin);
 
 
 const Users = mongoose.model('User', register_newUser);
 
-module.exports = { Users  };
+module.exports = { Users , coins };

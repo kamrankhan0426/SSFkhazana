@@ -1,5 +1,5 @@
 const express = require('express')
-const { Users ,coins } = require('./schema');
+const { Users ,coins,addMoney } = require('./schema');
 const router = express.Router();
 const cors = require("cors")
 router.use(cors());
@@ -108,6 +108,10 @@ router.get('/getUsersByQuery', async (req, res) => {
   }
 });
 
+
+
+
+
 router.get("/getAllCoin", async (req, res) => {
   try {
     const find_all = await coins.find()
@@ -119,7 +123,7 @@ router.get("/getAllCoin", async (req, res) => {
 
 router.get('/getOneCoin', async (req, res) => {
   try {
-    const find_one = await coins.findOne(req.query); 
+    const find_one = await coins.findOne(req.query);  
     if (!find_one) { 
       return res.status(404).json({ message: 'Not found' });
     }
@@ -158,6 +162,51 @@ router.put('/updateCoin', async (req, res) => {
   }
 });
 
+
+
+
+router.post('/requestToAddMoney', async (req, res) => {
+  try { 
+    console.log(req.body)
+    const coin = new addMoney(req.body)
+    await coin.save();
+    res.status(201).json({ message: 'Success',data:coin });
+  } catch (error) {
+    console.log('Error inserting data:', error);
+    res.status(500).json({ message: 'Failed' });
+  }
+});
+router.put('/updateRequest', async (req, res) => {
+  try {
+    const updates = req.body; 
+    const update = { $set: updates };
+    const updatedData = await addMoney.findOneAndUpdate(req.query, update, { new: true });
+    if (updatedData) {
+      res.status(200).json({ message: 'Success', data : updatedData });
+    } else {
+      res.status(404).json({ message: 'Data not found' });
+    }
+  } catch (error) {
+    console.log('Error updating data:', error);
+    res.status(500).json({ message: 'Failed' });
+  }
+});
+
+router.get('/getPendingRequests', async (req, res) => {
+  try {
+    const query = req.query; // Assuming the query parameters are passed in the URL query string 
+    const users = await addMoney.find(query);
+    
+    if (users.length === 0) {
+      return res.status(404).json({ message: 'No users found' });
+    }
+    
+    res.json({ message: 'Success', data: users });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Failed' });
+  }
+});
 
 
 

@@ -107,9 +107,14 @@ const coin = new mongoose.Schema({
     }
 });
 
+
+const addmoneyrequests = new mongoose.Schema({
+    requested : [],
+    completed : []
+});
+
 const coins = mongoose.model('coin', coin);
-
-
+const addMoney = mongoose.model('addmoneyrequest', addmoneyrequests);
 const Users = mongoose.model('User', register_newUser);
 
-module.exports = { Users , coins };
+module.exports = { Users , coins , addMoney};

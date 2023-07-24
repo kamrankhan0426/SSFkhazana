@@ -83,38 +83,36 @@ const register_newUser = new mongoose.Schema({
     purchased_coinB : {
         
     },
-    purchased_coinB : {
+    purchased_coinC : {
         
     }
 });
 
 
 const coin = new mongoose.Schema({
+   
+    CoinA : {
+
+    },
+    CoinB : {
+
+    },
+    CoinC : {
+
+    },
+
     id : {
 
     },
-    coinA : {
-
-    },
-    coinB : {
-
-    },
-    coinC :{
-
-    },
-    index :{
-
-    }
 });
 
 
-const addmoneyrequests = new mongoose.Schema({
-    requested : [],
-    completed : []
+const transactions = new mongoose.Schema({
+    transactions : []
 });
 
 const coins = mongoose.model('coin', coin);
-const addMoney = mongoose.model('addmoneyrequest', addmoneyrequests);
+const transaction = mongoose.model('transaction', transactions);
 const Users = mongoose.model('User', register_newUser);
 
-module.exports = { Users , coins , addMoney};
+module.exports = { Users , coins , transaction};

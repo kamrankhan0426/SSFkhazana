@@ -1,5 +1,5 @@
 const express = require('express')
-const { Users ,coins,addMoney } = require('./schema');
+const { Users ,coins, transaction } = require('./schema');
 const router = express.Router();
 const cors = require("cors")
 router.use(cors());
@@ -119,7 +119,7 @@ router.get("/getAllCoin", async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Failed" }); 
   } 
-});
+}); 
 
 router.get('/getOneCoin', async (req, res) => {
   try {
@@ -165,22 +165,12 @@ router.put('/updateCoin', async (req, res) => {
 
 
 
-router.post('/requestToAddMoney', async (req, res) => {
-  try { 
-    console.log(req.body)
-    const coin = new addMoney(req.body)
-    await coin.save();
-    res.status(201).json({ message: 'Success',data:coin });
-  } catch (error) {
-    console.log('Error inserting data:', error);
-    res.status(500).json({ message: 'Failed' });
-  }
-});
-router.put('/updateRequest', async (req, res) => {
+
+router.put('/updateTransaction', async (req, res) => {
   try {
     const updates = req.body; 
     const update = { $set: updates };
-    const updatedData = await addMoney.findOneAndUpdate(req.query, update, { new: true });
+    const updatedData = await transaction.findOneAndUpdate(req.query, update, { new: true });
     if (updatedData) {
       res.status(200).json({ message: 'Success', data : updatedData });
     } else {
@@ -192,15 +182,12 @@ router.put('/updateRequest', async (req, res) => {
   }
 });
 
-router.get('/getPendingRequests', async (req, res) => {
+router.get('/getAllTransaction', async (req, res) => {
   try {
-    const query = req.query; // Assuming the query parameters are passed in the URL query string 
-    const users = await addMoney.find(query);
-    
+    const users = await transaction.find();    
     if (users.length === 0) {
       return res.status(404).json({ message: 'No users found' });
-    }
-    
+    }    
     res.json({ message: 'Success', data: users });
   } catch (error) {
     console.log(error);

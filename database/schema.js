@@ -73,6 +73,15 @@ const register_newUser = new mongoose.Schema({
         type: String,
         required: false,
     },
+    today_income: {
+
+    },
+    monthly_income: {
+
+    },
+    yesterday_income: {
+
+    },
     network_earn: {
         type: String,
         required: false,
@@ -90,7 +99,7 @@ const register_newUser = new mongoose.Schema({
 
 
 const coin = new mongoose.Schema({
-   
+    
     CoinA : {
 
     },
@@ -100,8 +109,16 @@ const coin = new mongoose.Schema({
     CoinC : {
 
     },
-
     id : {
+
+    },
+    CoinA_Stock : {
+
+    },
+    CoinB_Stock : {
+
+    },
+    CoinC_Stock : {
 
     },
 });

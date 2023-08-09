@@ -207,7 +207,7 @@ router.post("/sendUserCLientId", async (req, res) => {
   console.log("email is ", email);
 
   try {
-    
+     
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {   

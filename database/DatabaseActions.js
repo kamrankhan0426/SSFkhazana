@@ -108,6 +108,19 @@ router.get('/getUsersByQuery', async (req, res) => {
   }
 });
 
+router.get('/getAllUser', async (req, res) => {
+  try {
+    const users = await Users.find();
+    if (users.length === 0) {
+      return res.status(404).json({ message: 'No users found' });
+    }
+    res.json({ message: 'Success', data: users });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Failed' });
+  }
+});
+
 
 
 

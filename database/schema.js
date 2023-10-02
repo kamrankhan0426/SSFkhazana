@@ -94,7 +94,8 @@ const register_newUser = new mongoose.Schema({
     },
     purchased_coinC : {
         
-    }
+    },
+    CoinHistory : []
 });
 
 

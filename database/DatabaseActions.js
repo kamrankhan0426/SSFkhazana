@@ -255,7 +255,42 @@ router.post("/sendUserCLientId", async (req, res) => {
   }
 });
 
+function generateVerificationCode() {
+  return Math.floor(100000 + Math.random() * 900000);
+}
 
+router.post('/sendVerificationCode', async (req, res) => {
+  const { email } = req.body;
+  console.log(req.body)
+  try {
+    // Generate a random 6-digit verification code
+    const verificationCode = generateVerificationCode();
+    console.log(verificationCode)
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {   
+        user: "propertyportalcc@gmail.com",
+        pass: "xwrrfzmrdowxnamf",
+      },
+    });
 
+    const mailOptions = {
+      from: 'propertyportalcc@gmail.com', // Update with your Gmail email
+      to: email,
+      subject: 'Verification Code',
+      text: `Your verification code is: ${verificationCode}`,
+    };
+
+    // Send the email with the verification code
+    const info = await transporter.sendMail(mailOptions);
+
+    console.log('Verification Code Email Sent:', info.response);
+
+    res.status(201).json({ status: 201, verificationCode });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ status: 500, error: 'Internal server error' });
+  }
+});
 
 module.exports = router;

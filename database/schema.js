@@ -123,11 +123,21 @@ const coin = new mongoose.Schema({
 
     },
 });
-
-
 const transactions = new mongoose.Schema({
+    name: {},
+    adding_amount: {},
+    withdraw_amount: {},
+    email: {}, client_Id: {},
+    dateTime: {}, status: {},
+    admin_response: {},
+    srNo: {},
+    type: {},
     transactions : []
 });
+
+// const transactions = new mongoose.Schema({
+//     transactions : []
+// });
 
 const coins = mongoose.model('coin', coin);
 const transaction = mongoose.model('transaction', transactions);

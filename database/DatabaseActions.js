@@ -183,6 +183,8 @@ router.put('/updateTransaction', async (req, res) => {
   try {
     const updates = req.body; 
     const update = { $set: updates };
+    console.log(updates)
+    console.log(update)
     const updatedData = await transaction.findOneAndUpdate(req.query, update, { new: true });
     if (updatedData) {
       res.status(200).json({ message: 'Success', data : updatedData });
@@ -195,7 +197,58 @@ router.put('/updateTransaction', async (req, res) => {
   }
 });
 
+
 router.get('/getAllTransaction', async (req, res) => {
+  console.log('Called')
+  try {
+    const users = await transaction.find();    
+    console.log(users.length)
+    if (users.length === 0) {
+      return res.status(404).json({ message: 'No users found' });
+    }    
+    res.json({ message: 'Success', data: users });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Failed' });
+  }
+});
+
+
+
+
+
+router.post('/addTranscations', async (req, res) => {
+  try {
+    const tras = new transaction(req.body)
+    var resp =  await tras.save();
+    if (resp) {
+      res.status(200).json({ message: 'Success', data : resp });
+    } else {
+      res.status(404).json({ message: 'Data not found' });
+    }
+  } catch (error) {
+    console.log('Error updating data:', error);
+    res.status(500).json({ message: 'Failed' });
+  }
+});
+
+router.patch('/updateTransact', async (req, res) => {
+  console.log('Called')
+  try {
+    const updates = req.body; 
+    const updatedData = await transaction.findOneAndUpdate(req.query, updates, { new: true });
+    if (updatedData) {
+      res.status(200).json({ message: 'Success', data : updatedData });
+    } else {
+      res.status(404).json({ message: 'Data not found' });
+    }
+  } catch (error) {
+    console.log('Error updating data:', error);
+    res.status(500).json({ message: 'Failed' });
+  }
+});
+
+router.get('/getTransactions', async (req, res) => {
   try {
     const users = await transaction.find();    
     if (users.length === 0) {
